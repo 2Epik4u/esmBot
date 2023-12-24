@@ -1,9 +1,21 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "./build",
-    "rootDir": ".",
-    "allowJs": true
+    "rootDir": "./src",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "paths": {
+      "#cmd-classes/*": ["./src/classes/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#database": ["./src/database.js"],
+      "#pagination": ["./src/pagination/pagination.js"],
+      "#config/*": ["./config/*"]
+    }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./build/**/*"]
 }

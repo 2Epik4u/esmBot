@@ -2,25 +2,27 @@
   "name": "esmbot",
   "version": "1.10.3",
   "description": "A Discord bot with miscellaneous features",
-  "exports": "./src/app.js",
-  "bin": "./src/app.js",
+  "exports": "./build/app.js",
+  "bin": "./build/app.js",
   "type": "module",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "build": "cmake-js compile --CDWITH_MAGICK=ON",
-    "build:debug": "cmake-js compile -BDebug --CDWITH_MAGICK=ON",
-    "build:no-magick": "cmake-js compile --CDWITH_MAGICK=OFF",
-    "build:debug-no-magick": "cmake-js compile -BDebug --CDWITH_MAGICK=OFF",
+    "build": "tsc && pnpm build:natives",
+    "build:debug": "tsc && pnpm build:natives:debug",
+    "build:natives": "cmake-js compile --CDWITH_MAGICK=ON",
+    "build:natives:debug": "cmake-js compile -BDebug --CDWITH_MAGICK=ON",
+    "build:natives:no-magick": "cmake-js compile --CDWITH_MAGICK=OFF",
+    "build:natives:debug-no-magick": "cmake-js compile -BDebug --CDWITH_MAGICK=OFF",
     "docker:build": "DOCKER_BUILDKIT=1 docker build -t esmbot .",
     "docker:run-bot": "docker run --rm --network=host esmbot",
     "docker:run-api": "docker run --rm --network=host esmbot-api",
     "docker:run-lava": "docker run --rm --network host -v \"$(pwd)\"/application.yml:/opt/Lavalink/application.yml -v \"$(pwd)\"/assets:/opt/Lavalink/assets fredboat/lavalink:dev",
-    "start": "node src/app.js",
-    "start:debug": "DEBUG=true node src/app.js",
+    "start": "node build/app.js",
+    "start:debug": "DEBUG=true node build/app.js",
     "start-api": "node api/index.js",
-    "start-api:debug": "DEBUG=true node src/app.js"
+    "start-api:debug": "DEBUG=true node build/app.js"
   },
   "author": "Essem <essem@essem.space>",
   "license": "MIT",
@@ -50,9 +52,12 @@
     "@biomejs/biome": "1.4.0",
     "@biomejs/cli-linux-x64": "1.4.0",
     "@tsconfig/node18": "^18.2.2",
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^18.19.3",
     "cmake-js": "^7.2.1",
     "eslint": "^8.55.0",
-    "eslint-plugin-unicorn": "^49.0.0"
+    "eslint-plugin-unicorn": "^49.0.0",
+    "typescript": "^5.3.3"
   },
   "optionalDependencies": {
     "better-sqlite3": "^9.2.0",
@@ -67,10 +72,10 @@
     ]
   },
   "imports": {
-    "#cmd-classes/*": "./src/classes/*",
-    "#utils/*": "./src/utils/*",
-    "#database": "./src/database.js",
-    "#pagination": "./src/pagination/pagination.js",
+    "#cmd-classes/*": "./build/classes/*",
+    "#utils/*": "./build/utils/*",
+    "#database": "./build/database.js",
+    "#pagination": "./build/pagination/pagination.js",
     "#config/*": "./config/*"
   },
   "packageManager": "pnpm@8.12.1"

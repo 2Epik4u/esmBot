@@ -22,7 +22,9 @@ class TagsCommand extends Command {
       this.success = true;
       if (result) return result;
       return `The tag \`${tagName}\` has been added!`;
-    } else if (cmd === "delete" || cmd === "remove") {
+    }
+
+    if (cmd === "delete" || cmd === "remove") {
       if (!tagName || !tagName.trim()) return "You need to provide the name of the tag you want to delete!";
       const getResult = await database.getTag(this.guild.id, tagName);
       if (!getResult) return "This tag doesn't exist!";
@@ -31,7 +33,9 @@ class TagsCommand extends Command {
       await database.removeTag(tagName, this.guild);
       this.success = true;
       return `The tag \`${tagName}\` has been deleted!`;
-    } else if (cmd === "edit") {
+    }
+    
+    if (cmd === "edit") {
       if (!tagName || !tagName.trim()) return "You need to provide the name of the tag you want to edit!";
       const getResult = await database.getTag(this.guild.id, tagName);
       if (!getResult) return "This tag doesn't exist!";
@@ -40,7 +44,9 @@ class TagsCommand extends Command {
       await database.editTag(tagName, { content: this.type === "classic" ? this.args.slice(2).join(" ") : this.optionsArray[0].options[1].value, author: this.member.id }, this.guild);
       this.success = true;
       return `The tag \`${tagName}\` has been edited!`;
-    } else if (cmd === "own" || cmd === "owner") {
+    }
+    
+    if (cmd === "own" || cmd === "owner") {
       if (!tagName || !tagName.trim()) return "You need to provide the name of the tag you want to check the owner of!";
       const getResult = await database.getTag(this.guild.id, tagName);
       if (!getResult) return "This tag doesn't exist!";
@@ -56,12 +62,14 @@ class TagsCommand extends Command {
       } else {
         return `This tag is owned by **${user.username}${user.discriminator === 0 ? `#${user.discriminator}` : ""}** (\`${getResult.author}\`).`;
       }
-    } else if (cmd === "list") {
+    }
+    
+    if (cmd === "list") {
       if (!this.permissions.has("EMBED_LINKS")) return "I don't have the `Embed Links` permission!";
       const tagList = await database.getTags(this.guild.id);
       const embeds = [];
-      const groups = Object.keys(tagList).map((_item, index) => {
-        return index % 15 === 0 ? Object.keys(tagList).slice(index, index + 15) : null;
+      const groups = tagList.keys().map((_item, index) => {
+        return index % 15 === 0 ? tagList.keys().slice(index, index + 15) : null;
       }).filter((item) => {
         return item;
       });
@@ -84,26 +92,26 @@ class TagsCommand extends Command {
       if (embeds.length === 0) return "I couldn't find any tags!";
       this.success = true;
       return paginator(this.client, { type: this.type, message: this.message, interaction: this.interaction, author: this.author }, embeds);
-    } else {
-      let getResult;
-      if (cmd === "random") {
-        const tagList = await database.getTags(this.guild.id);
-        getResult = tagList[random(Object.keys(tagList))];
-      } else {
-        getResult = await database.getTag(this.guild.id, this.type === "classic" ? cmd : tagName);
-      }
-      if (!getResult) return "This tag doesn't exist!";
-      this.success = true;
-      if (getResult.content.length > 2000) {
-        return {
-          embeds: [{
-            color: 16711680,
-            description: getResult.content
-          }],
-        };
-      }
-      return getResult.content;
     }
+
+    let getResult;
+    if (cmd === "random") {
+      const tagList = await database.getTags(this.guild.id);
+      getResult = tagList.get(random(tagList.keys()));
+    } else {
+      getResult = await database.getTag(this.guild.id, this.type === "classic" ? cmd : tagName);
+    }
+    if (!getResult) return "This tag doesn't exist!";
+    this.success = true;
+    if (getResult.content.length > 2000) {
+      return {
+        embeds: [{
+          color: 16711680,
+          description: getResult.content
+        }],
+      };
+    }
+    return getResult.content;
   }
 
   static description = "Manage tags";

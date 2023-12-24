@@ -1,4 +1,4 @@
-if (process.versions.node.split(".")[0] < 18) {
+if (parseInt(process.versions.node.split(".")[0]) < 18) {
   console.error(`You are currently running Node.js version ${process.version}.
 esmBot requires Node.js version 18 or above.
 Please refer to step 3 of the setup guide: https://docs.esmbot.net/setup/#3-install-nodejs`);
@@ -17,7 +17,7 @@ import "dotenv/config";
 import { reloadImageConnections } from "./utils/image.js";
 
 // main services
-import { Client } from "oceanic.js";
+import { Client, ClientEvents, Constants } from "oceanic.js";
 // some utils
 import { promises } from "fs";
 import logger from "./utils/logger.js";
@@ -43,16 +43,16 @@ import packageJson from "../package.json" with { type: "json" };
 process.env.ESMBOT_VER = packageJson.version;
 
 const intents = [
-  "GUILD_VOICE_STATES",
-  "DIRECT_MESSAGES",
-  "GUILDS"
+  Constants.Intents.GUILD_VOICE_STATES,
+  Constants.Intents.DIRECT_MESSAGES,
+  Constants.Intents.GUILDS
 ];
 if (commandConfig.types.classic) {
-  intents.push("GUILD_MESSAGES");
-  intents.push("MESSAGE_CONTENT");
+  intents.push(Constants.Intents.GUILD_MESSAGES);
+  intents.push(Constants.Intents.MESSAGE_CONTENT);
 }
 
-async function* getFiles(dir) {
+async function* getFiles(dir: string): AsyncGenerator<string> {
   const dirents = await promises.readdir(dir, { withFileTypes: true });
   for (const dirent of dirents) {
     const name = dir + (dir.charAt(dir.length - 1) !== "/" ? "/" : "") + dirent.name;
@@ -122,7 +122,7 @@ if (database) {
 }
 if (process.env.API_TYPE === "ws") await reloadImageConnections();
 
-const shardArray = process.env.SHARDS ? JSON.parse(process.env.SHARDS)[process.env.pm_id - 1] : null;
+const shardArray = process.env.SHARDS && process.env.pm_id ? JSON.parse(process.env.SHARDS)[parseInt(process.env.pm_id) - 1] : null;
 
 // create the oceanic client
 const client = new Client({
@@ -163,7 +163,7 @@ for await (const file of getFiles(resolve(dirname(fileURLToPath(import.meta.url)
     continue;
   }
   const { default: event } = await import(file);
-  client.on(eventName, event.bind(null, client));
+  client.on(eventName as keyof ClientEvents, event.bind(null, client));
 }
 logger.log("info", "Finished loading events.");
 
@@ -182,7 +182,7 @@ if (process.env.PM2_USAGE) {
         return;
       }
       const managerProc = list.filter((v) => v.name === "esmBot-manager")[0];
-      pm2Bus.on("process:msg", async (packet) => {
+      pm2Bus.on("process:msg", async (packet: { data: { type: string; message: string; }; }) => {
         switch (packet.data?.type) {
           case "reload":
             await load(client, paths.get(packet.data.message), true);
@@ -200,14 +200,15 @@ if (process.env.PM2_USAGE) {
             endBroadcast(client);
             break;
           case "serverCounts":
-            pm2.sendDataToProcessId(managerProc.pm_id, {
+            pm2.sendDataToProcessId(managerProc.pm_id as number, {
               id: managerProc.pm_id,
               type: "process:msg",
               data: {
                 type: "serverCounts",
                 guilds: client.guilds.size,
                 shards: client.shards.map((v) => {
-                  return { id: v.id, procId: process.env.pm_id - 1, latency: v.latency, status: v.status };
+                  if (!process.env.pm_id) return;
+                  return { id: v.id, procId: parseInt(process.env.pm_id) - 1, latency: v.latency, status: v.status };
                 })
               },
               topic: true

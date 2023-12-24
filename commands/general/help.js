@@ -41,7 +41,7 @@ class HelpCommand extends Command {
       if (database) {
         embed.embeds[0].fields.push({
           name: "Times used",
-          value: (await database.getCounts())[command],
+          value: (await database.getCounts()).get(command),
           inline: true
         });
       }
