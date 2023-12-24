@@ -1,4 +1,4 @@
-import Command from "../../classes/command.js";
+import Command from "#cmd-classes/command.js";
 const mentionRegex = /^<?[@#]?[&!]?(\d+)>?$/;
 
 class AvatarCommand extends Command {

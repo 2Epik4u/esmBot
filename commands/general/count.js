@@ -1,6 +1,6 @@
-import paginator from "../../utils/pagination/pagination.js";
-import database from "../../utils/database.js";
-import Command from "../../classes/command.js";
+import paginator from "#pagination";
+import database from "#database";
+import Command from "#cmd-classes/command.js";
 
 class CountCommand extends Command {
   async run() {

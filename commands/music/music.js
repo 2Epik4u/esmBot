@@ -1,5 +1,5 @@
-import Command from "../../classes/command.js";
-import { commands, aliases, info, categories } from "../../utils/collections.js";
+import Command from "#cmd-classes/command.js";
+import { commands, aliases, info, categories } from "#utils/collections.js";
 
 // all-in-one music command
 class MusicAIOCommand extends Command {

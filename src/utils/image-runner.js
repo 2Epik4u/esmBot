@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 
 const nodeRequire = createRequire(import.meta.url);
 
-const relPath = `../build/${process.env.DEBUG && process.env.DEBUG === "true" ? "Debug" : "Release"}/image.node`;
+const relPath = `../../build/${process.env.DEBUG && process.env.DEBUG === "true" ? "Debug" : "Release"}/image.node`;
 const img = nodeRequire(relPath);
 
 const enumMap = {
@@ -72,7 +72,7 @@ export default function run(object) {
           objectWithFixedType.gravity = enumMap[objectWithFixedType.gravity];
         }
       }
-      objectWithFixedType.basePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "../");
+      objectWithFixedType.basePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "../../");
       try {
         const result = img.image(object.cmd, objectWithFixedType);
         const returnObject = {

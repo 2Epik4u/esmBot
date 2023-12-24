@@ -1,4 +1,4 @@
-import { commands, messageCommands, disabledCache, disabledCmdCache, prefixCache } from "../collections.js";
+import { commands, messageCommands, disabledCache, disabledCmdCache, prefixCache } from "#utils/collections.js";
 
 import sqlite3 from "better-sqlite3";
 const connection = sqlite3(process.env.DB.replace("sqlite://", ""));

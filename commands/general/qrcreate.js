@@ -1,6 +1,6 @@
 import qrcode from "qrcode";
 import { PassThrough } from "stream";
-import Command from "../../classes/command.js";
+import Command from "#cmd-classes/command.js";
 
 class QrCreateCommand extends Command {
   async run() {

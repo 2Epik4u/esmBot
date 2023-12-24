@@ -1,9 +1,9 @@
-import database from "../utils/database.js";
-import { log, error as _error } from "../utils/logger.js";
-import { prefixCache, aliases, disabledCache, disabledCmdCache, commands } from "../utils/collections.js";
-import parseCommand from "../utils/parseCommand.js";
-import { clean } from "../utils/misc.js";
-import { upload } from "../utils/tempimages.js";
+import database from "#database";
+import { log, error as _error } from "#utils/logger.js";
+import { prefixCache, aliases, disabledCache, disabledCmdCache, commands } from "#utils/collections.js";
+import parseCommand from "#utils/parseCommand.js";
+import { clean } from "#utils/misc.js";
+import { upload } from "#utils/tempimages.js";
 import { ThreadChannel } from "oceanic.js";
 
 let mentionRegex;

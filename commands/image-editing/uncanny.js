@@ -1,5 +1,5 @@
-import ImageCommand from "../../classes/imageCommand.js";
-import { random, cleanMessage } from "../../utils/misc.js";
+import ImageCommand from "#cmd-classes/imageCommand.js";
+import { random, cleanMessage } from "#utils/misc.js";
 import { readdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";

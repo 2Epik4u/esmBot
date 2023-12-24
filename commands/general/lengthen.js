@@ -1,5 +1,5 @@
-import urlCheck from "../../utils/urlcheck.js";
-import Command from "../../classes/command.js";
+import urlCheck from "#utils/urlcheck.js";
+import Command from "#cmd-classes/command.js";
 
 class LengthenCommand extends Command {
   async run() {

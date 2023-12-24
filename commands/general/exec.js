@@ -1,8 +1,8 @@
-import { clean } from "../../utils/misc.js";
+import { clean } from "#utils/misc.js";
 import * as util from "util";
 import { exec as baseExec } from "child_process";
 const exec = util.promisify(baseExec);
-import Command from "../../classes/command.js";
+import Command from "#cmd-classes/command.js";
 
 class ExecCommand extends Command {
   async run() {

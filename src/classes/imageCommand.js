@@ -1,10 +1,10 @@
 import Command from "./command.js";
-import imageDetect from "../utils/imagedetect.js";
-import { runImageJob } from "../utils/image.js";
-import { runningCommands } from "../utils/collections.js";
-import { random } from "../utils/misc.js";
-import { selectedImages } from "../utils/collections.js";
-import messages from "../config/messages.json" with { type: "json" };
+import imageDetect from "#utils/imagedetect.js";
+import { runImageJob } from "#utils/image.js";
+import { runningCommands } from "#utils/collections.js";
+import { random } from "#utils/misc.js";
+import { selectedImages } from "#utils/collections.js";
+import messages from "#config/messages.json" with { type: "json" };
 
 class ImageCommand extends Command {
   async criteria() {

@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { createRequire } from "module";
 import EventEmitter from "events";
-import logger from "../utils/logger.js";
+import logger from "#utils/logger.js";
 
 const nodeRequire = createRequire(import.meta.url);
 const img = nodeRequire(`../build/${process.env.DEBUG && process.env.DEBUG === "true" ? "Debug" : "Release"}/image.node`);
@@ -256,7 +256,7 @@ const runJob = (job, ws) => {
       reject(new TypeError("Unknown image type"));
     }
 
-    const worker = new Worker(join(dirname(fileURLToPath(import.meta.url)), "../utils/image-runner.js"), {
+    const worker = new Worker(join(dirname(fileURLToPath(import.meta.url)), "../src/utils/image-runner.js"), {
       workerData: object
     });
     const timeout = setTimeout(() => {

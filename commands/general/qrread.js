@@ -1,8 +1,8 @@
 import jsqr from "jsqr";
 import sharp from "sharp";
-import { clean } from "../../utils/misc.js";
-import Command from "../../classes/command.js";
-import imageDetect from "../../utils/imagedetect.js";
+import { clean } from "#utils/misc.js";
+import Command from "#cmd-classes/command.js";
+import imageDetect from "#utils/imagedetect.js";
 
 class QrReadCommand extends Command {
   async run() {

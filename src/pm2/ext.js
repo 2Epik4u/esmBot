@@ -8,7 +8,7 @@ import "dotenv/config";
 // oceanic client used for getting shard counts
 import { Client } from "oceanic.js";
 
-import database from "../database.js";
+import database from "#database";
 import { availableParallelism } from "os";
 
 const logger = winston.createLogger({

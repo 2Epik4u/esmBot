@@ -78,6 +78,9 @@ devDependencies:
   '@biomejs/cli-linux-x64':
     specifier: 1.4.0
     version: 1.4.0
+  '@tsconfig/node18':
+    specifier: ^18.2.2
+    version: 18.2.2
   cmake-js:
     specifier: ^7.2.1
     version: 7.2.1
@@ -729,6 +732,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@tsconfig/node18@18.2.2:
+    resolution: {integrity: sha512-d6McJeGsuoRlwWZmVIeE8CUA27lu6jLjvv1JzqmpsytOYYbVi1tHZEnwCNVOXnj4pyLvneZlFlpXUK+X9wBWyw==}
+    dev: true
 
   /@types/node@20.10.3:
     resolution: {integrity: sha512-XJavIpZqiXID5Yxnxv3RUDKTN5b81ddNC3ecsA0SoFXz/QU8OGBwZGMomiq0zw+uuqbL/krztv/DINAQ/EV4gg==}
@@ -3647,7 +3654,6 @@ packages:
     name: shoukaku
     version: 4.0.0-dev
     engines: {node: '>=18.0.0', npm: '>=7.0.0'}
-    prepare: true
     requiresBuild: true
     dependencies:
       ws: 8.14.2

@@ -9,7 +9,7 @@ export const queues = new Map();
 export const skipVotes = new Map();
 
 export let manager;
-export let nodes = JSON.parse(fs.readFileSync(new URL("../config/servers.json", import.meta.url), { encoding: "utf8" })).lava;
+export let nodes = JSON.parse(fs.readFileSync(new URL("../../config/servers.json", import.meta.url), { encoding: "utf8" })).lava;
 export let connected = false;
 
 export function connect(client) {
@@ -29,7 +29,7 @@ export function connect(client) {
 export async function reload(client) {
   if (!manager) connect(client);
   const activeNodes = manager.nodes;
-  const json = await fs.promises.readFile(new URL("../config/servers.json", import.meta.url), { encoding: "utf8" });
+  const json = await fs.promises.readFile(new URL("../../config/servers.json", import.meta.url), { encoding: "utf8" });
   nodes = JSON.parse(json).lava;
   const names = nodes.map((a) => a.name);
   for (const name in activeNodes) {
