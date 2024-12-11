@@ -3,7 +3,7 @@ import ImageCommand from "../../classes/imageCommand.js";
 class StakeCommand extends ImageCommand {
   params = {
     water: "assets/images/stake.png",
-    gravity: 8,
+    gravity: 1,
     resize: true,
     append: true
   };
