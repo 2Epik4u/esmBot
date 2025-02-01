@@ -9,7 +9,7 @@ class VolumeCommand extends MusicCommand {
     if (!this.connection) return this.getString("sound.noConnection");
     if (this.connection.host !== this.author.id && !this.memberPermissions.has("MANAGE_CHANNELS")) return "Only the current voice session host can change the volume!";
     const vol = Number.parseInt(this.options.level ?? this.args[0]);
-    if (Number.isNaN(vol) || vol > 100 || vol < 0) return "You can only set the volume between 0 and 100!";
+    if (Number.isNaN(vol) || vol > 1000 || vol < 0) return "You can only set the volume between 0 and 1000!";
     await this.connection.player.setGlobalVolume(vol);
     this.success = true;
     return `🔊 The volume has been changed to \`${vol}\`.`;
