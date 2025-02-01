@@ -12,13 +12,11 @@ ArgumentMap Squish(const string& type, string& outType, const char* bufferdata, 
   VImage in =
       VImage::new_from_buffer(
           bufferdata, bufferLength, "",
-          GetInputOptions(type, true, true))
-          .colourspace(VIPS_INTERPRETATION_sRGB);
-  if (!in.has_alpha()) in = in.bandjoin(255);
+          GetInputOptions(type, true, true));
 
   int width = in.width();
   int pageHeight = vips_image_get_page_height(in.get_image());
-  int nPages = vips_image_get_n_pages(in.get_image());
+  int nPages = type == "avif" ? 1 : vips_image_get_n_pages(in.get_image());
   bool multiPage = true;
   if (nPages == 1) {
     multiPage = false;

@@ -10,17 +10,14 @@ ArgumentMap Deepfry(const string& type, string& outType, const char* bufferdata,
 {
   VImage in =
       VImage::new_from_buffer(bufferdata, bufferLength, "",
-                              GetInputOptions(type, true, false))
-          .colourspace(VIPS_INTERPRETATION_sRGB);
-
-  if (!in.has_alpha()) in = in.bandjoin(255);
+                              GetInputOptions(type, true, false));
 
   int width = in.width();
   int pageHeight = vips_image_get_page_height(in.get_image());
   int totalHeight = in.height();
-  int nPages = vips_image_get_n_pages(in.get_image());
+  int nPages = type == "avif" ? 1 : vips_image_get_n_pages(in.get_image());
 
-  VImage fried = (in * 1.3 - (255.0 * 1.3 - 255.0)) * 1.5;
+  VImage fried = (in * 1.3 - 76.5) * 1.5;
 
   VImage final;
   if (totalHeight > 65500 && nPages > 1) {

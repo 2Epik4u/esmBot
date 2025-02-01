@@ -59,7 +59,11 @@ const PASS = process.env.PASS ? process.env.PASS : undefined;
 let jobAmount = 0;
 
 // Used for direct image uploads
-const discord = new Client();
+const discord = new Client({
+  rest: {
+    baseURL: process.env.REST_PROXY && process.env.REST_PROXY !== "" ? process.env.REST_PROXY : undefined
+  }
+});
 const clientID = process.env.CLIENT_ID;
 
 discord.on("error", error);
@@ -109,7 +113,7 @@ wss.on("connection", (ws, request) => {
   cur.writeUInt16LE(jobAmount);
   const formats = {};
   for (const cmd of img.funcs) {
-    formats[cmd] = ["image/png", "image/gif", "image/jpeg", "image/webp"];
+    formats[cmd] = ["image/png", "image/gif", "image/jpeg", "image/webp", "image/avif"];
   }
   const init = Buffer.concat([Buffer.from([Rinit]), Buffer.from([0x00, 0x00, 0x00, 0x00]), cur, Buffer.from(JSON.stringify(formats))]);
   ws.send(init);
@@ -208,6 +212,9 @@ httpServer.on("request", async (req, res) => {
       case "webp":
         contentType = "image/webp";
         break;
+      case "avif":
+        contentType = "image/avif";
+        break;
     }
     if (contentType) res.setHeader("Content-Type", contentType);
     else res.setHeader("Content-Type", ext);
@@ -296,7 +303,7 @@ process.on("SIGINT", () => {
   });
 });
 
-const allowedExtensions = ["gif", "png", "jpeg", "jpg", "webp"];
+const allowedExtensions = ["gif", "png", "jpeg", "jpg", "webp", "avif"];
 const fileSize = 10485760;
 
 /**
