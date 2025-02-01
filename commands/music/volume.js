@@ -20,7 +20,7 @@ class VolumeCommand extends MusicCommand {
     type: 4,
     description: "The volume level",
     minValue: 0,
-    maxValue: 100,
+    maxValue: 1000,
     required: true,
     classic: true
   }];
