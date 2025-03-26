@@ -1,13 +1,13 @@
 import MusicCommand from "../../classes/musicCommand.js";
 
-class SpeedCommand extends MusicCommand {
+class MusicSpeedCommand extends MusicCommand {
   async run() {
     this.success = false;
     if (!this.guild) return this.getString("guildOnly");
     if (!this.member?.voiceState) return this.getString("sound.noVoiceState");
     if (!this.guild.voiceStates.get(this.client.user.id)?.channelID) return this.getString("sound.notInVoice");
     if (!this.connection) return this.getString("sound.noConnection");
-    if (this.connection.host !== this.author.id && !this.memberPermissions.has("MANAGE_CHANNELS")) return "Only the current voice session host can change the pitch!";
+    if (this.connection.host !== this.author.id && !this.memberPermissions.has("MANAGE_CHANNELS")) return "Only the current voice session host can change the speed!";
     const vol = Number.parseFloat(this.options.level ?? this.args[0]);
     if (Number.isNaN(vol) || vol > 1000 || vol < 0) return "You can only set the speed between 0 and 1000!";
     const settings = {
@@ -32,4 +32,4 @@ class SpeedCommand extends MusicCommand {
   static aliases = ["fast"];
 }
 
-export default SpeedCommand;
+export default MusicSpeedCommand;
